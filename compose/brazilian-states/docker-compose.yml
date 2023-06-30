@@ -11,8 +11,19 @@ services:
       POSTGRES_DB: brazilian_states
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  myapp:
+    build: .
+    environment:
+      DSN: user=postgres password=password dbname=brazilian_states host=db port=5432 sslmode=disable
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
   adminer:
     image: adminer
     restart: always
     ports:
       - 7080:8080
+
